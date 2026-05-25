@@ -7,11 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Example model
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  image     String?
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  price       Decimal?
+  stock       Int       @default(0)
+  images      String[]
+  sizes       String[]
+  colors      String[]
+  fabric      String?
+  gender      String?
+  featured    Boolean   @default(false)
+  sku         String?   @unique
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  inquiries   Inquiry[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Inquiry {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  schoolName   String?
+  message      String
+  productId    String?
+  product      Product? @relation(fields: [productId], references: [id])
+  quantity     Int?
+  status       InquiryStatus @default(PENDING)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+enum InquiryStatus {
+  PENDING
+  REVIEWED
+  CLOSED
 }
