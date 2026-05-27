@@ -18,22 +18,34 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export default function ContactForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   
   const { register, handleSubmit, formState: { errors }, setError } = useForm<ContactFormData>();
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
+    setSubmitError(null);
     
     try {
-      // Validate with Zod
       const validData = contactSchema.parse(data);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: validData.fullName,
+          email: validData.email,
+          phone: validData.phone,
+          schoolName: validData.school,
+          message: validData.subject + ': ' + validData.message
+        })
+      });
+
+      if (!response.ok) {
+        setSubmitError('Something went wrong. Please try again or contact us directly.');
+        return;
+      }
       
-      console.log('Form data to be submitted:', validData);
-      
-      // Show success message
       setIsSuccess(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -42,6 +54,8 @@ export default function ContactForm() {
             setError(err.path[0] as any, { type: 'manual', message: err.message });
           }
         });
+      } else {
+        setSubmitError('Something went wrong. Please try again or contact us directly.');
       }
     } finally {
       setIsSubmitting(false);
@@ -134,13 +148,19 @@ export default function ContactForm() {
         {errors.message && <p className="text-red-500 text-[13px] mt-1.5">{errors.message.message}</p>}
       </div>
 
-      <button 
-        type="submit" 
-        disabled={isSubmitting}
-        className="w-full h-[48px] bg-[#0B1F3A] text-white rounded-[6px] font-medium text-[15px] tracking-[0.02em] hover:bg-[#081629] transition-colors disabled:opacity-70 flex items-center justify-center"
-      >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
-      </button>
+        {submitError && (
+          <div className="bg-red-50 text-red-500 p-4 rounded-[6px] text-[14px] font-medium border border-red-100">
+            {submitError}
+          </div>
+        )}
+
+        <button 
+          type="submit" 
+          disabled={isSubmitting}
+          className="w-full h-[48px] bg-[#0B1F3A] text-white rounded-[6px] font-medium text-[15px] tracking-[0.02em] hover:bg-[#081629] transition-colors disabled:opacity-70 flex items-center justify-center"
+        >
+          {isSubmitting ? 'Sending...' : 'Send Message'}
+        </button>
     </form>
   );
 }

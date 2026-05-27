@@ -22,6 +22,7 @@ export default function BulkInquiryForm() {
   const searchParams = useSearchParams();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Pre-fill form from query params
   const initialProductName = searchParams.get('product');
@@ -51,14 +52,29 @@ export default function BulkInquiryForm() {
 
   const onSubmit = async (data: InquiryFormData) => {
     setIsSubmitting(true);
+    setSubmitError(null);
     
     try {
       const validData = inquirySchema.parse(data);
       
-      // Simulate API call to POST /api/inquiries
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      console.log('Inquiry submitted:', validData);
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: validData.fullName,
+          email: validData.email,
+          phone: validData.phone,
+          schoolName: validData.school,
+          message: validData.products + 
+                   (validData.notes ? '\n\n' + validData.notes : ''),
+          quantity: validData.quantity
+        })
+      });
+
+      if (!response.ok) {
+        setSubmitError('Something went wrong. Please try again or contact us directly.');
+        return;
+      }
       
       setIsSuccess(true);
     } catch (error) {
@@ -68,6 +84,8 @@ export default function BulkInquiryForm() {
             setError(err.path[0] as any, { type: 'manual', message: err.message });
           }
         });
+      } else {
+        setSubmitError('Something went wrong. Please try again or contact us directly.');
       }
     } finally {
       setIsSubmitting(false);
@@ -166,6 +184,12 @@ export default function BulkInquiryForm() {
             className="w-full min-h-[80px] px-4 py-3 border border-[#E5E7EB] rounded-[6px] focus:ring-2 focus:ring-[#0B1F3A]/20 focus:border-[#0B1F3A] outline-none transition-all resize-y"
           />
         </div>
+
+        {submitError && (
+          <div className="bg-red-50 text-red-500 p-4 rounded-[6px] text-[14px] font-medium border border-red-100">
+            {submitError}
+          </div>
+        )}
 
         <button 
           type="submit" 
