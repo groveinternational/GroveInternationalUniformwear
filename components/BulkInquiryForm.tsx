@@ -84,7 +84,7 @@ export default function BulkInquiryForm() {
       setIsSuccess(true);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        error.errors.forEach((err) => {
+        error.issues.forEach((err) => {
           if (err.path[0]) {
             setError(err.path[0] as any, { type: 'manual', message: err.message });
           }
