@@ -51,9 +51,14 @@ export default async function HomePage() {
           
           {/* RIGHT (40%) */}
           <div className="w-full md:w-[40%]">
-            <div className="w-full aspect-[4/5] bg-white/5 border border-white/20 rounded-[8px] flex flex-col items-center justify-center">
-              <p className="text-white/30 font-medium">Product Image</p>
-              <p className="text-white/30 text-sm mt-1">AI mockup coming soon</p>
+            <div className="w-full aspect-[4/5] relative rounded-[8px] overflow-hidden shadow-2xl">
+              <Image 
+                src="/hero_mockup.png"
+                alt="Product Image"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
         </div>

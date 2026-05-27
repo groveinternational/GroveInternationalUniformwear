@@ -10,7 +10,7 @@ const inquirySchema = z.object({
   email: z.string().email('Invalid email format'),
   phone: z.string().optional(),
   schoolName: z.string().optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  message: z.string().min(1, 'Message must be provided'),
   productId: z.string().optional(),
   quantity: z.number().positive().optional(),
 });

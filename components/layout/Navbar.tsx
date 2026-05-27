@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -27,13 +28,22 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-white border-b border-[#E5E7EB]">
       <div className="max-w-[1280px] mx-auto px-10 h-[72px] flex items-center justify-between">
         {/* LEFT: Wordmark */}
-        <Link href="/" className="flex flex-col">
-          <span className="text-[#0B1F3A] font-bold tracking-wide leading-none text-xl">
-            GROVE
-          </span>
-          <span className="text-[#6B7280] font-normal text-xs leading-none mt-1">
-            INTERNATIONAL
-          </span>
+        <Link href="/" className="flex items-center gap-3">
+          <Image 
+            src="/logo-icon.png" 
+            alt="Grove International Icon" 
+            width={64} 
+            height={64} 
+            className="object-contain" 
+          />
+          <div className="flex flex-col">
+            <span className="text-[#0B1F3A] font-bold tracking-wide leading-none text-xl">
+              GROVE
+            </span>
+            <span className="text-[#6B7280] font-normal text-xs leading-none mt-1">
+              INTERNATIONAL
+            </span>
+          </div>
         </Link>
 
         {/* CENTER: Desktop Links */}

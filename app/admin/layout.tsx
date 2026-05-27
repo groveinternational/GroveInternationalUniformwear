@@ -88,7 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 sticky top-0 z-10">
           <h2 className="text-xl font-semibold text-text">{getPageTitle()}</h2>
           <div className="text-sm font-medium text-text-muted">
-            admin@grove.com
+            Admin
           </div>
         </header>
 

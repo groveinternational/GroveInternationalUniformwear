@@ -72,7 +72,12 @@ export default function BulkInquiryForm() {
       });
 
       if (!response.ok) {
-        setSubmitError('Something went wrong. Please try again or contact us directly.');
+        const errData = await response.json().catch(() => null);
+        if (errData?.details && Array.isArray(errData.details)) {
+          setSubmitError(`Error: ${errData.details.map((d: any) => d.message).join(', ')}`);
+        } else {
+          setSubmitError(errData?.error || 'Something went wrong. Please try again or contact us directly.');
+        }
         return;
       }
       

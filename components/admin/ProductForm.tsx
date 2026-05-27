@@ -47,11 +47,15 @@ export default function ProductForm({ action, initialData, categories }: Product
         body: formData,
       });
       
-      if (!res.ok) throw new Error('Upload failed');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || errorData.details || 'Upload failed');
+      }
       const data = await res.json();
       setImages((prev) => [...prev, data.secure_url]);
-    } catch (error) {
-      alert('Error uploading image');
+    } catch (error: any) {
+      alert('Error uploading image: ' + error.message);
+      console.error(error);
     } finally {
       setUploading(false);
       e.target.value = ''; // reset input

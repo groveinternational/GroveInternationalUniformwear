@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -7,13 +8,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16">
           {/* COL 1 */}
           <div className="flex flex-col">
-            <span className="text-white font-bold tracking-wide leading-none text-2xl">
-              GROVE
-            </span>
-            <span className="text-white/80 font-normal text-sm leading-none mt-1">
-              INTERNATIONAL
-            </span>
-            <p className="text-white/60 text-[14px] mt-6 leading-relaxed">
+            <Image src="/logo.png" alt="Grove International Logo" width={180} height={180} className="object-contain" />
+            <div className="flex flex-col mt-6">
+              <span className="text-white font-bold tracking-wide leading-none text-2xl">
+                GROVE
+              </span>
+              <span className="text-white/80 font-normal text-sm leading-none mt-1">
+                INTERNATIONAL
+              </span>
+            </div>
+            <p className="text-white/60 text-[14px] mt-2 leading-relaxed">
               Premium School Uniform Solutions
             </p>
           </div>

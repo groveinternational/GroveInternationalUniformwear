@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   const categories = [
-    { name: 'Shirts', slug: 'shirts', image: null },
+    { name: 'Shirts', slug: 'shirts', image: '/school-shirt.png' },
     { name: 'Trousers', slug: 'trousers', image: null },
     { name: 'Blazers', slug: 'blazers', image: null },
     { name: 'Sportswear', slug: 'sportswear', image: null },
@@ -15,7 +15,7 @@ async function main() {
   for (const category of categories) {
     await prisma.category.upsert({
       where: { slug: category.slug },
-      update: {},
+      update: { image: category.image },
       create: category,
     })
   }

@@ -19,8 +19,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ secure_url: uploadResponse.secure_url });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Cloudinary upload error:', error);
-    return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to upload image', details: error.message || String(error) }, { status: 500 });
   }
 }
