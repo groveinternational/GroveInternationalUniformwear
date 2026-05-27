@@ -83,9 +83,9 @@ export default async function ProductsPage({
                     <td className="px-6 py-4 text-text-muted">{p.price ? `₹${p.price.toFixed(2)}` : '—'}</td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        p.isFeatured ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                        p.featured ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {p.isFeatured ? 'Featured' : 'Standard'}
+                        {p.featured ? 'Featured' : 'Standard'}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right space-x-3">
