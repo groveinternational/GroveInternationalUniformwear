@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import BulkInquiryForm from '@/components/BulkInquiryForm';
 
 export const metadata: Metadata = {
@@ -25,7 +26,9 @@ export default function BulkInquiryPage() {
         </div>
 
         {/* FORM */}
-        <BulkInquiryForm />
+        <Suspense fallback={<div className="text-center py-10">Loading form...</div>}>
+          <BulkInquiryForm />
+        </Suspense>
 
       </div>
     </div>
