@@ -29,7 +29,12 @@ export default function Footer() {
               {['Home', 'Products', 'About', 'Bulk Orders', 'Contact'].map((link) => (
                 <li key={link}>
                   <Link 
-                    href={link === 'Home' ? '/' : `/${link.toLowerCase().replace(' ', '-')}`}
+                    href={
+                      link === 'Home' ? '/' : 
+                      link === 'Products' ? '/shop' :
+                      link === 'Bulk Orders' ? '/bulk-inquiry' :
+                      `/${link.toLowerCase().replace(' ', '-')}`
+                    }
                     className="text-white/60 hover:text-white transition-colors text-[15px]"
                   >
                     {link}
